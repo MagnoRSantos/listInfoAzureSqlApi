@@ -140,7 +140,7 @@ def obterTokenAzure():
             msgTokenAviso = 'Token ainda valido.'
             valueToken = lerTokenApi(pathTokenFile)
 
-    print(GravaLog(msgTokenAviso, 'a'))
+    GravaLog(msgTokenAviso, 'a')
     return valueToken
 
 
