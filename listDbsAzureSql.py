@@ -11,6 +11,10 @@ import dotenv
 from tabulate import tabulate
 from datetime import datetime
 
+## NECESSARIO INSTALACAO DO AZ CLI
+# fonte: https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt
+# UBUNTU - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
 ## Local raiz da aplicacao
 dirapp = os.path.dirname(os.path.realpath(__file__))
 
