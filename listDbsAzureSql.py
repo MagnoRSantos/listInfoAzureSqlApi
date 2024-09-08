@@ -15,6 +15,7 @@ from datetime import datetime
 ## NECESSARIO INSTALACAO DO AZ CLI
 # fonte: https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-linux?pivots=apt
 # UBUNTU - curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+# Instuções de Login az cli: https://www.ibm.com/docs/pt-br/guardium-insights/3.2.x?topic=azure-log-in-cli
 
 ## Local raiz da aplicacao
 dirapp = os.path.dirname(os.path.realpath(__file__))
