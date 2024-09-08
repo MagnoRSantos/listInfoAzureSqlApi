@@ -344,24 +344,9 @@ def exibeDadosSqlite():
             --WHERE Database != 'master';
             """
 
-            #cur = conn.cursor()
-            #cur.execute(sqlcmd)
-            #rows = cur.fetchall()
-            #for row in rows:
-            #    print(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
-
             df = pd.read_sql(sqlcmd, conn)
-            #print(df.to_string(index=False, col_space=20, justify='justify-all'))
             v_out_table = tabulate(df, headers='keys', tablefmt='psql', showindex=False)
             print(GravaLog(v_out_table, 'a'))
-
-            ## json
-            result = df.to_json(orient="records")
-            parsed = json.loads(result)
-            #print(json.dumps(parsed, indent=4))
-
-
-            #print(tabulate(df, headers='keys', tablefmt='psql', showindex=False))
 
     except sqlite3.Error as e:
         datahora = obterDataHora()
