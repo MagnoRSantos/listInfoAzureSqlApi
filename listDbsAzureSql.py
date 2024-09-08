@@ -202,8 +202,7 @@ def jsonToListAzureSQLData(p_data):
         v_status = functions['properties']['status']
         v_location = functions['location']
         v_collation = functions['properties']['collation']
-
-        
+     
         strListValues = '{0},{1},{2},{3},{4},{5},{6},{7}'\
             .format(v_namedb, v_tiername, v_tier, v_capacity, v_currentServiceObjectiveName, v_status, v_location, v_collation)
 
@@ -288,13 +287,11 @@ def gravaDadosSqlite(v_ListValuesMongoDB):
 
             cur = conn.cursor()
 
-
             ## sql statement DELETE
             sqlcmdDELETE = 'DELETE FROM infoDatabaseAzureSqlApi;'
             cur.execute(sqlcmdDELETE)
             RowCountDelete = conn.total_changes
             conn.commit()
-
             
             ## sql statement INSERT
             sqlcmdINSERT = '''
@@ -324,11 +321,8 @@ def exibeDadosSqlite():
     path_dir_db = os.path.join(dirapp, 'db')
     path_full_dbname_sqlite3 = os.path.join(path_dir_db, dbname_sqlite3)
     
-
     try:
         with sqlite3.connect(path_full_dbname_sqlite3) as conn:
-
-            
 
             sqlcmd = """
             SELECT 
@@ -357,7 +351,6 @@ def exibeDadosSqlite():
     finally:
         msgLog = 'Fim Select tabela SQlite3 [infoDatabaseAzureSqlApi]'
         print(GravaLog(msgLog, 'a'))
-
 
 
 ## FUNCAO INICIAL
