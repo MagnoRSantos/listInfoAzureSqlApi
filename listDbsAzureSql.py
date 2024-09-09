@@ -107,27 +107,27 @@ def geraTokenApi():
 
     value_subscriptionid, value_resourcegroup, value_azureserver = obterValoresDotEnv()
 
-    value_plataform = str(verifyPlatform())
+    value_platform = str(verifyPlatform())
     cmd = 'az account get-access-token --subscription  {}'.format(value_subscriptionid)
     
-    if value_plataform == 'win32':
-        msg = 'Sistema Operacional: {0}'.format(value_plataform)
+    if value_platform == 'win32':
+        msg = 'Sistema Operacional: {0}'.format(value_platform)
         GravaLog(msg, 'a')
         out = subprocess.run(["cmd", "/c", cmd], capture_output=True, text=True)
         valuesJson = json.loads(out.stdout)
         valueToken = valuesJson['accessToken']
         valueExpireTokenTimeStamp = valuesJson['expires_on']
     
-    elif value_plataform == 'linux':
-        msg = 'Sistema Operacional: {0}'.format(value_plataform)
+    elif value_platform == 'linux':
+        msg = 'Sistema Operacional: {0}'.format(value_platform)
         GravaLog(msg, 'a')
         out = subprocess.run([cmd], capture_output=True, text=True)
         valuesJson = json.loads(out.stdout)
         valueToken = valuesJson['accessToken']
         valueExpireTokenTimeStamp = valuesJson['expires_on']
 
-    elif value_plataform == 'darwin':
-        msg = 'Sistema Operacional: {0}'.format(value_plataform)
+    elif value_platform == 'darwin':
+        msg = 'Sistema Operacional: {0}'.format(value_platform)
         print(GravaLog(msg, 'a'))
         out = subprocess.run([cmd], capture_output=True, text=True)
         valuesJson = json.loads(out.stdout)
