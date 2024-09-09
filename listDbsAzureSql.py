@@ -2,7 +2,7 @@
 
 ## imports
 import requests
-import os, io
+import os, io, sys
 import sqlite3
 import time
 import subprocess
@@ -19,6 +19,11 @@ from datetime import datetime
 
 ## Local raiz da aplicacao
 dirapp = os.path.dirname(os.path.realpath(__file__))
+
+
+## Verifica sistema operacional
+def verifyPlataform():
+    return sys.platform
 
 
 ## funcao para ler valores do DOTENV
@@ -102,12 +107,37 @@ def geraTokenApi():
 
     value_subscriptionid, value_resourcegroup, value_azureserver = obterValoresDotEnv()
 
-    ## using subprocess.run recomendado
-    out = subprocess.run(['az','account', 'get-access-token', '--subscription', value_subscriptionid], capture_output=True, text=True)
-    valuesJson = json.loads(out.stdout)
-    valueToken = valuesJson['accessToken']
-    valueExpireTokenTimeStamp = valuesJson['expires_on']
+    value_plataform = str(verifyPlataform())
+    cmd = 'az account get-access-token --subscription  {}'.format(value_subscriptionid)
+    
+    if value_plataform == 'win32':
+        msg = 'Sistema Operacional: {0}'.format(value_plataform)
+        GravaLog(msg, 'a')
+        out = subprocess.run(["cmd", "/c", cmd], capture_output=True, text=True)
+        valuesJson = json.loads(out.stdout)
+        valueToken = valuesJson['accessToken']
+        valueExpireTokenTimeStamp = valuesJson['expires_on']
+    
+    elif value_plataform == 'linux':
+        msg = 'Sistema Operacional: {0}'.format(value_plataform)
+        GravaLog(msg, 'a')
+        out = subprocess.run([cmd], capture_output=True, text=True)
+        valuesJson = json.loads(out.stdout)
+        valueToken = valuesJson['accessToken']
+        valueExpireTokenTimeStamp = valuesJson['expires_on']
 
+    elif value_plataform == 'darwin':
+        msg = 'Sistema Operacional: {0}'.format(value_plataform)
+        print(GravaLog(msg, 'a'))
+        out = subprocess.run([cmd], capture_output=True, text=True)
+        valuesJson = json.loads(out.stdout)
+        valueToken = valuesJson['accessToken']
+        valueExpireTokenTimeStamp = valuesJson['expires_on']
+    else:
+        msg = 'Sistema operacional não definido. Saindo da aplicação.'
+        GravaLog(msg, 'a')
+        exit()
+    
     return valueToken, valueExpireTokenTimeStamp
 
 
