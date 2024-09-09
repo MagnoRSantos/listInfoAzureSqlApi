@@ -4,3 +4,5 @@ dirts/
 log/
 token/
 .env
+listDbsAzureSql-SQLSERVER.py
+sqlserver/
