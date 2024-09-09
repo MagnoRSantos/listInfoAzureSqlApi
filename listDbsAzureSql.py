@@ -22,7 +22,7 @@ dirapp = os.path.dirname(os.path.realpath(__file__))
 
 
 ## Verifica sistema operacional
-def verifyPlataform():
+def verifyPlatform():
     return sys.platform
 
 
@@ -107,7 +107,7 @@ def geraTokenApi():
 
     value_subscriptionid, value_resourcegroup, value_azureserver = obterValoresDotEnv()
 
-    value_plataform = str(verifyPlataform())
+    value_plataform = str(verifyPlatform())
     cmd = 'az account get-access-token --subscription  {}'.format(value_subscriptionid)
     
     if value_plataform == 'win32':
