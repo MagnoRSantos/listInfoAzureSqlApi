@@ -168,11 +168,14 @@ def geraTokenApi():
     return valueToken, valueExpireTokenTimeStamp
 
 
-## funcao que verifica a necessidade de gerar novo token
-# 1 - caso nao existe o arquivo txt do token ou timestamp expire ele cria o token inicial
-# 2 - caso timestamp atual do server seja maior que o timestamp expire do token faz a renovacao do token
-# 3 - caso o token ainda exteja com timestamp expire valido usa o meso token do arquivo txt
 def obterTokenAzure():
+
+    """
+    funcao que verifica a necessidade de gerar novo token
+    1 - caso nao existe o arquivo txt do token ou timestamp expire ele cria o token inicial
+    2 - caso timestamp atual do server seja maior que o timestamp expire do token faz a renovacao do token
+    3 - caso o token ainda exteja com timestamp expire valido usa o meso token do arquivo txt
+    """
 
     ## diretorio do arquivo ts_expireon.txt
     pathTimeStamp = os.path.join(dirapp, 'dirts')
@@ -275,11 +278,11 @@ def jsonToListAzureSQLData(p_data):
 
 ## Funcao de criacao do database e tabela caso nao exista
 def create_tables(dbname_sqlite3):
-    
-    ## script sql de criacao da tabela
-    # pode ser adicionado a criacao de mais de uma tabela
-    # separando os scripts por virgulas
-    
+    """
+    script sql de criacao da tabela
+    pode ser adicionado a criacao de mais de uma tabela
+    separando os scripts por virgulas
+    """
     sql_statements = [
         """
         CREATE TABLE "infoDatabaseAzureSqlApi" (
@@ -292,6 +295,7 @@ def create_tables(dbname_sqlite3):
             "Status"	TEXT NOT NULL,
             "Location"  TEXT NOT NULL,
             "Collation"	TEXT NOT NULL,
+            "UltimaVerificacao" REAL NOT NULL,
             PRIMARY KEY("infoDatabaseAzureSqlApiId" AUTOINCREMENT)
         )        
         """
@@ -354,9 +358,9 @@ def gravaDadosSqlite(v_ListValuesMongoDB):
             ## sql statement INSERT
             sqlcmdINSERT = '''
             INSERT INTO infoDatabaseAzureSqlApi
-                (Database, TierName, Tier, Capacity, CurrentServiceObjectiveName, Status, Location, Collation) 
+                (Database, TierName, Tier, Capacity, CurrentServiceObjectiveName, Status, Location, Collation, UltimaVerificacao) 
             VALUES 
-            (?, ?, ?, ?, ?, ?, ?, ?);
+                (?, ?, ?, ?, ?, ?, ?, ?, datetime('now','localtime'));
             '''
             cur.executemany(sqlcmdINSERT, v_ListValuesMongoDB)
             RowCountInsert = conn.total_changes
@@ -391,7 +395,8 @@ def exibeDadosSqlite():
                 CurrentServiceObjectiveName,
                 Status,
                 Location, 
-                Collation
+                Collation,
+                UltimaVerificacao
             FROM infoDatabaseAzureSqlApi 
             --WHERE Database != 'master';
             """
