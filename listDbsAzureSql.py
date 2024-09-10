@@ -127,6 +127,9 @@ def geraTokenApi():
         valueExpireTokenTimeStamp = valuesJson['expires_on']
 
     elif value_platform == 'darwin':
+        """
+        Necessita testes em ambiente macos
+        """
         msg = 'Sistema Operacional: {0}'.format(value_platform)
         print(GravaLog(msg, 'a'))
         out = subprocess.run(['az', 'account', 'get-access-token', '--subscription', value_subscriptionid], capture_output=True, text=True)
