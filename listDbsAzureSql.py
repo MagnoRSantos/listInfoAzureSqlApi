@@ -66,6 +66,7 @@ def gravarTokenTimeStampExpire():
         pass
 
     with io.open(pathTimeStampFile, 'w', encoding='utf-8') as file:
+        valueTimeStamp = int(valueTimeStamp)
         file.write(str(valueTimeStamp))
 
     
@@ -86,18 +87,32 @@ def gravarTokenTimeStampExpire():
 
 ## funcao que le o timestamp expire do arquivo txt
 def lerTimeStampExpire(pathTimeStampFile):
+    """
+    Le o timestamp do arquivo ts_expireon.txt
+    Caso o arquivo esteja vazio (v_timestampexpire == '') gera novo token e timestamp
+    """
         
     with io.open(pathTimeStampFile, 'r', encoding='utf-8') as f:
         v_timestampexpire = f.read()
+
+    if v_timestampexpire == '':
+        v_timestampexpire = gravarTokenTimeStampExpire()[1]
 
     return v_timestampexpire
 
 
 ## funcao que le o token do arquivo txt
 def lerTokenApi(pathTokenFile):
+    """
+    Le o token api do arquivo tokenApi.txt
+    Caso o arquivo esteja vazio (v_token == '') gera novo token e timestamp
+    """
 
     with io.open(pathTokenFile, 'r', encoding='utf-8') as f:
         v_token = f.read()
+
+    if v_token == '':
+        v_token = gravarTokenTimeStampExpire()[0]
 
     return v_token
 
@@ -116,7 +131,10 @@ def geraTokenApi():
         out = subprocess.run(["cmd", "/c", cmd], capture_output=True, text=True)
         valuesJson = json.loads(out.stdout)
         valueToken = valuesJson['accessToken']
-        valueExpireTokenTimeStamp = valuesJson['expires_on']
+        #valueExpireTokenTimeStamp = valuesJson['expires_on']
+        valueExpireOn = valuesJson['expiresOn']
+        valueExpireOn = datetime.strptime(valueExpireOn, "%Y-%m-%d %H:%M:%S.%f")
+        valueExpireTokenTimeStamp = valueExpireOn.timestamp()
     
     elif value_platform == 'linux':
         msg = 'Sistema Operacional: {0}'.format(value_platform)
@@ -124,7 +142,10 @@ def geraTokenApi():
         out = subprocess.run([cmd], capture_output=True, text=True)
         valuesJson = json.loads(out.stdout)
         valueToken = valuesJson['accessToken']
-        valueExpireTokenTimeStamp = valuesJson['expires_on']
+        #valueExpireTokenTimeStamp = valuesJson['expires_on']
+        valueExpireOn = valuesJson['expiresOn']
+        valueExpireOn = datetime.strptime(valueExpireOn, "%Y-%m-%d %H:%M:%S.%f")
+        valueExpireTokenTimeStamp = valueExpireOn.timestamp()
 
     elif value_platform == 'darwin':
         msg = 'Sistema Operacional: {0}'.format(value_platform)
@@ -132,7 +153,10 @@ def geraTokenApi():
         out = subprocess.run([cmd], capture_output=True, text=True)
         valuesJson = json.loads(out.stdout)
         valueToken = valuesJson['accessToken']
-        valueExpireTokenTimeStamp = valuesJson['expires_on']
+        #valueExpireTokenTimeStamp = valuesJson['expires_on']
+        valueExpireOn = valuesJson['expiresOn']
+        valueExpireOn = datetime.strptime(valueExpireOn, "%Y-%m-%d %H:%M:%S.%f")
+        valueExpireTokenTimeStamp = valueExpireOn.timestamp()
     else:
         msg = 'Sistema operacional não definido. Saindo da aplicação.'
         GravaLog(msg, 'a')
