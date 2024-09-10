@@ -128,7 +128,7 @@ def geraTokenApi():
 
     elif value_platform == 'darwin':
         """
-        Necessita testes em ambiente macos
+        Necessita testes em ambiente macOS
         """
         msg = 'Sistema Operacional: {0}'.format(value_platform)
         print(GravaLog(msg, 'a'))
