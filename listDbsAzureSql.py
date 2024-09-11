@@ -390,9 +390,9 @@ def exibeDadosSqlite():
             SELECT 
                 Database,
                 TierName,
-                Tier,
+                --Tier,
                 Capacity,
-                CurrentServiceObjectiveName,
+                CurrentServiceObjectiveName AS "CurrentService",
                 Status,
                 Location, 
                 Collation,
