@@ -194,11 +194,11 @@ def obterTokenAzure():
         v_timestampexpire = int(lerTimeStampExpire(pathTimeStampFile))
         
         if v_timestampnow > v_timestampexpire:
-            msgTokenAviso = 'Renovado token expirado.'
+            msgTokenAviso = 'Renovado token devido ao timestamp expirado.'
             valueToken, valueTimeStamp = gravarTokenTimeStampExpire()
         
         else:
-            msgTokenAviso = 'Token ainda valido.'
+            msgTokenAviso = 'TimeStamp ainda valido.'
             valueToken = lerTokenApi(pathTokenFile)
 
     GravaLog(msgTokenAviso, 'a')
@@ -425,19 +425,22 @@ def main():
     
     ## obter dados da api azuresql
     v_data = obterDadosAzureSqlApi()
-
-    ## receber dados tratados
-    v_listDbs = jsonToListAzureSQLData(v_data)
-
-    if v_listDbs:
-
-        ## grava dados no database de destino
-        gravaDadosSqlite(v_listDbs)
-
-        ## exibe os dados em formato tabela
-        exibeDadosSqlite()
+    if "The access token is invalid." in str(v_data):
+        msgLog = 'Error de validação do token: {0}'.format(v_data)
+        print(GravaLog(msgLog, 'a'))
     else:
-        pass
+        ## receber dados tratados
+        v_listDbs = jsonToListAzureSQLData(v_data)
+
+        if v_listDbs:
+
+            ## grava dados no database de destino
+            gravaDadosSqlite(v_listDbs)
+
+            ## exibe os dados em formato tabela
+            exibeDadosSqlite()
+        else:
+            pass
 
     ## log do final da aplicacao
     datahora = obterDataHora()
