@@ -428,10 +428,16 @@ def main():
 
     ## receber dados tratados
     v_listDbs = jsonToListAzureSQLData(v_data)
-    gravaDadosSqlite(v_listDbs)
 
-    ## exibe os dados em formato tabela
-    exibeDadosSqlite()
+    if v_listDbs:
+
+        ## grava dados no database de destino
+        gravaDadosSqlite(v_listDbs)
+
+        ## exibe os dados em formato tabela
+        exibeDadosSqlite()
+    else:
+        pass
 
     ## log do final da aplicacao
     datahora = obterDataHora()
